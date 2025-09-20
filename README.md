@@ -204,3 +204,85 @@ This whole process is called Static Site Generation (SSG).
 When a user requests a page that needs dynamic data, the browser sends a request to the server.
 The server queries the database, retrieves the requested data, and uses it to generate the complete HTML for that page.
 The server then sends this HTML back to the browser, which displays it to the user.
+
+## 52-4 Set-up Json Server for Next Level Data Fetching
+- fetch method use condition 
+- 1 server side and we are know nextjs is by default server side rendering
+- 2 use async await  method
+
+- use dami json date from json-server https://www.npmjs.com/package/json-server
+
+
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products")
+    // db.json
+    const products = await res.json()
+    console.log(products)
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
+- productCard.tsx
+```ts
+import { IProduct } from "@/type";
+
+
+
+const ProductCard = ({product}:{product:IProduct}) => {
+    console.log(product)
+    return (
+    <div className="max-w-sm  bg-red-500  rounded-lg shadow-md overflow-hidden  ">
+      {/* Product Image */}
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-48 object-cover object-center rounded-md"
+      />
+
+      {/* Product Info */}
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold text-gray-900 ">{product.name}</h3>
+        <p className="text-sm text-gray-600 mt-1 line-clamp-2">{product.description}</p>
+
+        <div className="mt-2 text-gray-700">
+          <p>Category: {product.category}</p>
+          <p>Price: ${product.price.toFixed(2)}</p>
+          <p>Stock: {product.stock}</p>
+          <p>Rating: {product.rating}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
+```
+-- type/index.ts
+```ts
+
+export interface IProduct {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  stock: number;
+  image: string;
+  rating: number;
+}
+```

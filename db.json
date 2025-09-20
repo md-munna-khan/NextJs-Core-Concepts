@@ -1,0 +1,60 @@
+{
+    "products":
+    [
+  {
+    "id": 1,
+    "name": "Wireless Bluetooth Headphones",
+    "description": "Over-ear noise-cancelling headphones with 20-hour battery life.",
+    "price": 89.99,
+    "category": "Electronics",
+    "stock": 42,
+    "image": "https://images.unsplash.com/photo-1518443897867-1dbd7464c09f?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 2,
+    "name": "Classic Leather Backpack",
+    "description": "Durable genuine-leather backpack with multiple compartments.",
+    "price": 129.00,
+    "category": "Bags",
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1553062407-98d76ae0dc1d?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Smart Fitness Watch",
+    "description": "Tracks heart rate, steps, and sleep patterns; water resistant.",
+    "price": 59.50,
+    "category": "Wearables",
+    "stock": 68,
+    "image": "https://images.unsplash.com/photo-1519406596758-5c1b49b5cdd1?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 4,
+    "name": "Organic Green Tea (50 Bags)",
+    "description": "Premium hand-picked organic green tea for a fresh start to the day.",
+    "price": 12.99,
+    "category": "Grocery",
+    "stock": 120,
+    "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 5,
+    "name": "Ergonomic Office Chair",
+    "description": "Adjustable lumbar support and breathable mesh for long work sessions.",
+    "price": 199.00,
+    "category": "Furniture",
+    "stock": 25,
+    "image": "https://images.unsplash.com/photo-1598300052550-1d0f5e76fc5b?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 6,
+    "name": "Stainless Steel Water Bottle",
+    "description": "Vacuum-insulated 750 ml bottle keeps drinks cold for 24 hours.",
+    "price": 24.99,
+    "category": "Accessories",
+    "stock": 90,
+    "image": "https://images.unsplash.com/photo-1526401485004-2fda9f6a4caa?auto=format&fit=crop&w=600&q=80"
+  }
+]
+
+}
