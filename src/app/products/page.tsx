@@ -6,7 +6,10 @@ import React from 'react';
 
 const ProductsPage =async () => {
     const res = await fetch("http://localhost:5000/products",{
-        cache:"force-cache"
+     next:{
+      revalidate:30,
+      // tags:["products"]
+     }
     })
     const products = await res.json()
     

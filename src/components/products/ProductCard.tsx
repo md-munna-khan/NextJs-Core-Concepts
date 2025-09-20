@@ -5,7 +5,7 @@ import { IProduct } from "@/type";
 const ProductCard = ({product}:{product:IProduct}) => {
     console.log(product)
     return (
-    <div className="max-w-sm  bg-red-500  rounded-lg shadow-md overflow-hidden  ">
+    <div className="max-w-sm  bg-gray-400  rounded-lg shadow-md overflow-hidden  ">
       {/* Product Image */}
       <img
         src={product.image}

@@ -320,3 +320,54 @@ const ProductsPage =async () => {
 
 export default ProductsPage;
 ```
+## 52-6 Breaking the Limits of Static Sites with Next.js ISR
+- here is a small problem when we are deployed if i want any change not updated instant 
+again rebuild and redeploy then worked so its very painful
+
+```ts
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+        cache:"force-cache"
+    })
+    const products = await res.json()
+ ```
+-  solution isr policy
+-  This means the cached page is considered fresh for 5 seconds.
+After those 5 seconds, when the next user visits the page, Next.js will fetch fresh data in the background and rebuild the HTML.
+       
+- The browser does not auto-reload every 5 seconds.
+
+Only the part of the page that uses fetch with revalidate will get updated.
+
+The first visitor after the 5-second window might briefly see the old data, but the next visitor will get the updated content.
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+     next:{
+      // after every 5 seconds he reload the website and update content
+      // automatically re rendering
+     ❌ revalidate:5
+      // better approach use tags because if use  revalidate:5 every 5 second he called automatically if also not needed and db pressured
+    //✅ tags:["products"]
+     }
+    })
+    const products = await res.json()
+    
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
