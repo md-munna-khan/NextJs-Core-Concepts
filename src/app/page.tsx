@@ -5,7 +5,10 @@ const HomePage = () => {
   return (
     <div>
       <Navbar/>
-       HomePage 
+     <div className=' text-center my-4'>
+      <h1 className='text-4xl'>Next.js Font Optimization</h1>
+      <p>Best Practice For Faster Loading</p>
+     </div>
     </div>
   );
 };
