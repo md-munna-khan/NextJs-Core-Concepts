@@ -286,3 +286,37 @@ export interface IProduct {
   rating: number;
 }
 ```
+
+## 52-5 Explain SSG by Next-level Data Fetching
+
+![alt text](image-4.png)
+![alt text](image-5.png)
+- cache: "force-cache" tells Next.js (and underlying React Server Components) to store the response in CDN/cache.
+- The first time the page is built or visited, Next.js fetches the data from your API (localhost:5000/products).
+- The fetched data is then cached in CDN.
+- Next time a user visits the page, Next.js serves the cached HTML/data immediately without fetching from the server again.
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+        cache:"force-cache"
+    })
+    const products = await res.json()
+    
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
