@@ -189,3 +189,18 @@ import Navbar from '@/components/Navbar';
 // import nextImg from '../../assets/nextjs3.webp'
 import nextImg from '@/assets/nextjs3.webp'
 ```
+## 52-3 Explain core concept of pre-rendering (SSG + SSR)
+![alt text](image-2.png)
+#### static site generation(ssg)
+When we build a Next.js project and deploy it to a hosting service like Vercel, Render, or Firebase, we first create a build folder.
+During the build process, Next.js generates static content as HTML and bundled files.
+These files are then deployed to the hosting provider.
+After deployment, when a user visits a route such as /contact, the browser sends a request to the host, which returns the pre-built HTML for that route.
+The browser displays the content immediately.
+This whole process is called Static Site Generation (SSG).
+- not dynamic data here
+#### server side rendering
+![alt text](image-3.png)
+When a user requests a page that needs dynamic data, the browser sends a request to the server.
+The server queries the database, retrieves the requested data, and uses it to generate the complete HTML for that page.
+The server then sends this HTML back to the browser, which displays it to the user.
