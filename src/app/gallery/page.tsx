@@ -1,6 +1,7 @@
-import Image from 'next/image';
+ import Image from 'next/image';
 import React from 'react';
-import nextImg from '../../../assets/nextjs3.webp'
+// import nextImg from '../../assets/nextjs3.webp'
+import nextImg from '@/assets/nextjs3.webp'
 
 const GalleryPage = () => {
     return (
