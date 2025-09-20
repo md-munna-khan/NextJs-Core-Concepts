@@ -1,0 +1,2 @@
+# Next.js Core Concepts
+In this module, we’ll dive into the core concepts of Next.js to take your skills to the next level. You’ll learn how to optimize images, fonts, and metadata for better performance and SEO, explore pre-rendering strategies like SSG, SSR, and ISR, and practice advanced data fetching techniques. We’ll also cover global error handling, active links, and wrap up with hands-on tasks to solidify your learning.
