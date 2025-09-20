@@ -371,3 +371,52 @@ const ProductsPage =async () => {
 
 export default ProductsPage;
 ```
+## 52-7 Advance Data Fetching Strategies with SSR
+- Client request → Next.js server
+
+When a user visits /products, the request goes to your Next.js server.
+
+- fetch(..., { cache: 'no-store' })
+
+This tells Next.js never to cache the response.
+
+Every request forces a brand-new fetch from your database/API.
+
+- Server renders HTML on each request
+
+The server waits for the database data.
+
+Next.js builds the HTML with that fresh data and sends it to the browser.
+
+- No build-time generation
+
+Nothing is pre-rendered during next build.
+
+HTML is created only at request time, so users always see the latest data.
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+  cache:"no-store"
+    })
+    const products = await res.json()
+    
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
+- handle loading....
+![alt text](image-6.png)
