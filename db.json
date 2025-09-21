@@ -5,7 +5,7 @@
     "id": 1,
     "name": "Wireless Bluetooth Headphones",
     "description": "Over-ear noise-cancelling headphones with 20-hour battery life.",
-    "price": 89.99,
+    "price": 9990.99,
     "category": "Electronics",
     "stock": 42,
     "image": "https://images.unsplash.com/photo-1518443897867-1dbd7464c09f?auto=format&fit=crop&w=600&q=80"
@@ -14,7 +14,7 @@
     "id": 2,
     "name": "Classic Leather Backpack",
     "description": "Durable genuine-leather backpack with multiple compartments.",
-    "price": 129.00,
+    "price": 1290.00,
     "category": "Bags",
     "stock": 15,
     "image": "https://images.unsplash.com/photo-1553062407-98d76ae0dc1d?auto=format&fit=crop&w=600&q=80"

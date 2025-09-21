@@ -286,3 +286,170 @@ export interface IProduct {
   rating: number;
 }
 ```
+
+## 52-5 Explain SSG by Next-level Data Fetching
+
+![alt text](image-4.png)
+![alt text](image-5.png)
+- cache: "force-cache" tells Next.js (and underlying React Server Components) to store the response in CDN/cache.
+- The first time the page is built or visited, Next.js fetches the data from your API (localhost:5000/products).
+- The fetched data is then cached in CDN.
+- Next time a user visits the page, Next.js serves the cached HTML/data immediately without fetching from the server again.
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+        cache:"force-cache"
+    })
+    const products = await res.json()
+    
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
+## 52-6 Breaking the Limits of Static Sites with Next.js ISR
+- here is a small problem when we are deployed if i want any change not updated instant 
+again rebuild and redeploy then worked so its very painful
+
+```ts
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+        cache:"force-cache"
+    })
+    const products = await res.json()
+ ```
+-  solution isr policy
+-  This means the cached page is considered fresh for 5 seconds.
+After those 5 seconds, when the next user visits the page, Next.js will fetch fresh data in the background and rebuild the HTML.
+       
+- The browser does not auto-reload every 5 seconds.
+
+Only the part of the page that uses fetch with revalidate will get updated.
+
+The first visitor after the 5-second window might briefly see the old data, but the next visitor will get the updated content.
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+     next:{
+      // after every 5 seconds he reload the website and update content
+      // automatically re rendering
+     ❌ revalidate:5
+      // better approach use tags because if use  revalidate:5 every 5 second he called automatically if also not needed and db pressured
+    //✅ tags:["products"]
+     }
+    })
+    const products = await res.json()
+    
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
+## 52-7 Advance Data Fetching Strategies with SSR
+- Client request → Next.js server
+
+When a user visits /products, the request goes to your Next.js server.
+
+- fetch(..., { cache: 'no-store' })
+
+This tells Next.js never to cache the response.
+
+Every request forces a brand-new fetch from your database/API.
+
+- Server renders HTML on each request
+
+The server waits for the database data.
+
+Next.js builds the HTML with that fresh data and sends it to the browser.
+
+- No build-time generation
+
+Nothing is pre-rendered during next build.
+
+HTML is created only at request time, so users always see the latest data.
+```ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ProductCard from '@/components/products/ProductCard';
+import { IProduct } from '@/type';
+import React from 'react';
+
+const ProductsPage =async () => {
+    const res = await fetch("http://localhost:5000/products",{
+  cache:"no-store"
+    })
+    const products = await res.json()
+    
+    return (
+    <div className="max-w-7xl mx-auto text-center my-8 px-4 sm:px-6 lg:px-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+  {products.map((product: IProduct) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+
+    );
+};
+
+export default ProductsPage;
+```
+- handle loading....
+![alt text](image-6.png)
+
+## 52-8 Handle global errors with built-in error page
+- error.tsx ,not-found as like name convention must be use documentation in next.js
+- props use error,reset
+- error automatically entire folder
+- reset = if network unstable or server request timeout then  fetch re rendering or re call page reload again
+
+```ts
+"use client"
+
+import { useEffect } from "react";
+
+const ErrorPage = ({error,reset}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) => {
+     useEffect (() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+    return (
+        <div>
+            <h1 className="text-4xl  text-center mx-auto text-red-500">Something went Wrong</h1>
+            <h1 className="text-4xl  text-center mx-auto  text-red-500">{error?.message}</h1>
+      <div className="text-center">
+              <button onClick={()=> reset()} className= "text-4xl p-4  text-center mx-auto  text-red-500 bg-yellow-500">try again</button>
+      </div>
+        </div>
+    );
+};
+
+export default ErrorPage;
+```
