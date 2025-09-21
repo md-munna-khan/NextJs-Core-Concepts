@@ -12,6 +12,7 @@ const Navbar = () => {
            <div className='flex  space-x-4'>
                <Link href='/about'>About</Link>
                <Link href='/contact'>Contact</Link>
+               <Link href='/posts'>Post</Link>
                <Link href='/gallery' className={`${
                 pathname === "/gallery" ? "text-blue-400 font-semibold underline":"hover:underline"
                 }`}>Gallery</Link>
