@@ -453,3 +453,63 @@ const ErrorPage = ({error,reset}: {
 
 export default ErrorPage;
 ```
+## 52-9 Handling Active Links in Next.js
+- active links handle with pathname hook 
+```ts
+"use client"
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+
+const Navbar = () => {
+    const pathname= usePathname();
+    console.log(pathname)
+   return (
+       <div className='w-full flex items-center justify-between px-6 py-3'>
+           <div><Link href="/">Next js</Link></div>
+           <div className='flex  space-x-4'>
+               <Link href='/about'>About</Link>
+               <Link href='/contact'>Contact</Link>
+               <Link href='/gallery' className={`${
+                pathname === "/gallery" ? "text-blue-400 font-semibold underline":"hover:underline"
+                }`}>Gallery</Link>
+               <Link href='/products' className={`${
+                pathname === "/products"? "text-blue-400 font-semibold underline":"hover:underline"
+               }`}>Products</Link>
+           </div>
+       </div>
+   );
+};
+
+export default Navbar;
+```
+## 52-10 Module Summary and practice task
+```ts
+import PostCard from '@/components/posts/PostCard';
+import { IPost } from '@/type';
+import React from 'react';
+
+const PostPage =async () => {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=9",{
+      // 1  in build time create html content but not update content not retrive again build and then you can see update content
+        cache:"force-cache"
+        // 2 after every 30 second he render full project
+        next:{
+          revalidate:30
+        }
+        // 3 he not create again when user request then he created but loading page add because data come to server thats wy some loading needed
+          cache:"no-store"
+    });
+    const posts = await res.json()
+    return (
+        <div>
+            <h1 className='text-center text-4xl'>All posts</h1>
+            {
+                posts?.map((post:IPost) =>(<PostCard key={post.id} post={post}/> ))
+            }
+        </div>
+    );
+};
+
+export default PostPage;
+```
